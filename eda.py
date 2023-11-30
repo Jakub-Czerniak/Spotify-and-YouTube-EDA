@@ -31,9 +31,9 @@ df.info()
 print(df.nunique())
 # correlation
 df_corr = df.drop(['Artist', 'Track', 'Album', 'Album_type', 'Title', 'Key', 'Uri'], axis=1)
-df_corr.rename(columns={'Danceability':'Taneczność'}, inplace=True)
+df_corr.rename(columns={'Danceability':'Taneczność', 'Energy':'Energia', 'Key':'Tonacja', 'Loudness':'Głośność', 'Speechiness':'Tekstowość', 'Acousticness':'Akustyczność', 'Instrumentalness':'Instrumentalność', 'Liveness':'Żywość', 'Valence':'Pozytywność', 'Duration_ms':'Czas twania', 'Stream':'Odsłuchania', 'Views':'Wyświetlenia', 'Likes':'Polubienia', 'Comments':'Komentarze', 'Licensed':'Licencjonowany', 'official_video':'Oficjalny film'}, inplace=True)
 corrM = df_corr.corr(method='pearson')
-plt.figure(figsize=(20, 9))
-heatmap = sns.heatmap(corrM, vmin=-1, vmax=1, annot=True, cmap='BrBG')
-heatmap.set_title('Macierz korelacji')
+plt.figure(figsize=(12, 15))
+heatmap = sns.heatmap(corrM, vmin=-1, vmax=1, annot=True, cmap='BrBG', cbar=False)
+
 plt.savefig('heatmap.png', dpi=300, bbox_inches='tight')
