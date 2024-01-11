@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 from math import log10
 import numpy as np
 from mlxtend.frequent_patterns import fpgrowth
-from mlxtend.frequent_patterns import apriori
+from mlxtend.frequent_patterns import association_rules
 
 df = pd.read_csv('Spotify_Youtube.csv', index_col=0)
 
@@ -165,10 +165,10 @@ df_dummies = pd.get_dummies(df_ordinal,
                                      'Czas trwania', 'Wyświetlenia', 'Polubienia', 'Komentarze', 'Odsłuchania'])
 df_dummies = df_dummies.drop(['Żywość_0', 'Instrumentalność_0', 'Tekstowość_0'], axis=1)
 fp_results = fpgrowth(df_dummies, min_support=0.4, use_colnames=True, max_len=None, verbose=0)
-
+res_df = association_rules(fp_results, min_threshold=0.8)
 with pd.option_context('display.max_rows', None, 'display.max_columns', None):
-    print(fp_results)
-
+    print(res_df)
+res_df.to_csv('asos(0.8).txt')
 fp_results.to_csv('support(0.4).txt')
 
 
@@ -182,11 +182,11 @@ df_dummies_spotify = pd.get_dummies(df_ordinal_spotify_top,
                                      'Czas trwania', 'Wyświetlenia'])
 df_dummies_spotify = df_dummies_spotify.drop(['Żywość_0', 'Instrumentalność_0', 'Tekstowość_0'],axis=1)
 fp_results = fpgrowth(df_dummies_spotify, min_support=0.4, use_colnames=True, max_len=None, verbose=0)
+res_df = association_rules(fp_results, min_threshold=0.8)
 with pd.option_context('display.max_rows', None, 'display.max_columns', None):
-    print(fp_results)
-
+    print(res_df)
+res_df.to_csv('asos_spotify(0.8).txt')
 fp_results.to_csv('spotify_top_support(0.4).txt')
-
 
 
 df_ordinal_yt_top = df_ordinal.loc[df_ordinal['Wyświetlenia'] == '9']
@@ -199,7 +199,8 @@ df_dummies_yt = pd.get_dummies(df_ordinal_yt_top,
                                      'Czas trwania', 'Odsłuchania', 'Polubienia', 'Komentarze'])
 df_dummies_yt = df_dummies_yt.drop(['Żywość_0', 'Instrumentalność_0', 'Tekstowość_0'],axis=1)
 fp_results = fpgrowth(df_dummies_yt, min_support=0.4, use_colnames=True, max_len=None, verbose=0)
+res_df = association_rules(fp_results, min_threshold=0.8)
 with pd.option_context('display.max_rows', None, 'display.max_columns', None):
-    print(fp_results)
-
+    print(res_df)
+res_df.to_csv('asos_yt(0.8).txt')
 fp_results.to_csv('yt_top_support(0.4).txt')
